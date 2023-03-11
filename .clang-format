@@ -1,0 +1,14 @@
+---
+BasedOnStyle: Google
+---
+Language: Cpp
+ColumnLimit : 100
+
+# Always break after an open bracket, if the parameters don’t fit on a single line.
+AlignAfterOpenBracket: AlwaysBreak
+# Align array column and right justify the columns.
+AlignArrayOfStructures: Right
+
+
+
+SortIncludes: false
