@@ -3,15 +3,23 @@
 #include "vector.h"
 #include "matrix.h"
 
-
 namespace kplutl {
 /* inline functions */
+
+template <typename T, size_t N>
+inline void vectorDot_(T& out, const VectorCT<T, N>& vec_lhs, const VectorCT<T, N>& vec_rhs) {
+#ifdef ENABLE_ISPC
+  ispc::VectorDotProd(&out, vec_lhs, vec_rhs, N);
+#else
+  VectorDotProd(out, vec_lhs, vec_rhs);
+#endif
+}
 
 template <typename T>
 inline void vectorCross_(
     VectorCT<T, 3>& vec_out, const VectorCT<T, 3>& vec_lhs, const VectorCT<T, 3>& vec_rhs) {
 #ifdef ENABLE_ISPC
-  ispc::VectorCrossV3(vec_out, vec_lhs, vec_rhs);
+  ispc::VectorCrossProdV3(vec_out, vec_lhs, vec_rhs);
 #else
   VectorCrossV3(vec_out, vec_lhs, vec_rhs);
 #endif
@@ -48,11 +56,8 @@ inline void matrixTranspose_(MatrixCT<T, COLS, ROWS>& out, const MatrixCT<T, ROW
 
 template <typename T, size_t N>
 T DotProd(const VectorCT<T, N>& lhs, const VectorCT<T, N>& rhs) {
-  VectorCT<T, N> tmp = lhs * rhs;
-  T res = tmp[0];
-  for (size_t i = 1; i < N; ++i) {
-    res += tmp[i];
-  }
+  T res;
+  vectorDot_(res, lhs, rhs);
   return res;
 }
 
@@ -103,7 +108,8 @@ MatrixCT<T, Da, Dc> MatrixProd(const MatrixCT<T, Da, Db>& lhs, const MatrixCT<T,
   MatrixCT<T, Dc, Db> rhs_t{Transpose(rhs)};
   for (size_t r = 0; r < Da; ++r) {
     for (size_t c = 0; c < Dc; ++c) {
-      res.data_[r][c] = DotProd(lhs.data_[r], rhs_t.data_[c]);
+      T tmp = DotProd(lhs.data_[r], rhs_t.data_[c]);
+      res.data_[r][c] = tmp;
     }
   }
   return res;

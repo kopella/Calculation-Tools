@@ -1,14 +1,13 @@
-export void BuildIdentity(uniform float mat_arg[], const uniform int dim)
-{
-	foreach(i = 0 ... dim, j = 0 ... dim) {
-		if (i == j)
-			mat_arg[i * dim + j] = 1;
-		else
-			mat_arg[i * dim + j] = 0;
+ export void VectorDotProd(
+	uniform float out[], uniform const float vec_lhs[], uniform const float vec_rhs[], uniform const uint8 len){
+	foreach (index = 0 ... len) {
+        float lhs = vec_lhs[index];
+        float rhs = vec_rhs[index];
+        *out = reduce_add(lhs * rhs);
 	}
-}
+ }
 
-export void VectorCrossV3(
+export void VectorCrossProdV3(
     uniform float vec_out[3], uniform const float vec_lhs[3], uniform const float vec_rhs[3]){
 	foreach(index = 0 ... 3) {
 		int index_a = ((index + 1 == 3) ? 0 : index + 1);
@@ -26,9 +25,19 @@ export void VectorTransformV4(uniform const float mat_lhs[16], uniform float vec
     }
 }
 
+export void BuildIdentity(uniform float mat_arg[], const uniform int dim)
+{
+	foreach(i = 0 ... dim, j = 0 ... dim) {
+		if (i == j)
+			mat_arg[i * dim + j] = 1;
+		else
+			mat_arg[i * dim + j] = 0;
+	}
+}
+
 export void MatrixTranspose(
-    uniform float mat_out[], uniform const float mat_arg[], uniform const size_t row, uniform const size_t col){
+    uniform float mat_out[], uniform const float mat_arg[], uniform const uint8 row, uniform const uint8 col){
         foreach(i = 0 ... row, j = 0 ... col) {
-		    mat_out[j*row+i] = mat_arg[i*col+j];
+		    mat_out[j * row + i] = mat_arg[i * col + j];
 	}
 }
