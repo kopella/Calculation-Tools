@@ -1,14 +1,4 @@
-set(ISPC_CODES basic)
-
-foreach(ISPC_CODE IN LISTS ISPC_CODES)
-    add_custom_command(OUTPUT ${ISPC_CODE}.o
-        COMMAND ispc --target=host --arch=x86-64 ${PROJECT_SOURCE_DIR}/utility/calculation-tools/source/ispc/${ISPC_CODE}.ispc -o ${ISPC_CODE}.o
-        DEPENDS ${ISPC_CODE}.ispc
-        COMMENT "Buliding ${ISPC_CODE}.ispc")
-    list(APPEND ISPC_OBJECTS ${ISPC_CODE}.o)
-endforeach()
-
-add_library(ispc_ctlib ${ISPC_OBJECTS})
+add_library(ispc_ctlib basic.ispc linear_algebra.ispc)
 
 set_target_properties(ispc_ctlib
     PROPERTIES

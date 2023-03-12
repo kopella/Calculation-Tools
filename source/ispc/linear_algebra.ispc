@@ -8,7 +8,7 @@ export void BuildIdentity(uniform float mat_arg[], const uniform int dim)
 	}
 }
 
-export void CrossV3(
+export void VectorCrossV3(
     uniform float vec_out[3], uniform const float vec_lhs[3], uniform const float vec_rhs[3]){
 	foreach(index = 0 ... 3) {
 		int index_a = ((index + 1 == 3) ? 0 : index + 1);
@@ -17,7 +17,7 @@ export void CrossV3(
 	}
 }
 
-export void TransformV4(uniform const float mat_lhs[16], uniform float vec_rhs[4]){
+export void VectorTransformV4(uniform const float mat_lhs[16], uniform float vec_rhs[4]){
     foreach(index = 0 ... 4) {
         vec_rhs[index] = (vec_rhs[0] * mat_lhs[index*4]) 
             + (vec_rhs[1] * mat_lhs[index*4 + 1]) 
@@ -26,7 +26,7 @@ export void TransformV4(uniform const float mat_lhs[16], uniform float vec_rhs[4
     }
 }
 
-export void Transpose(
+export void MatrixTranspose(
     uniform float mat_out[], uniform const float mat_arg[], uniform const size_t row, uniform const size_t col){
         foreach(i = 0 ... row, j = 0 ... col) {
 		    mat_out[j*row+i] = mat_arg[i*col+j];

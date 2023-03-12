@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.14)
 project(CalculationTools
     VERSION 0.1.0
-    LANGUAGES CXX
+    LANGUAGES C CXX ISPC
 )
 
 option(CT_ENABLE_ISPC "Enable Intel® ISPC." ON)
