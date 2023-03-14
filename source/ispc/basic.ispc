@@ -47,3 +47,10 @@ export void SqrtForeach(
         out[index] = sqrt(in_arg[index]);
     }
 }
+export void NegForeach(
+    uniform float out[], uniform const float in_arg[],  uniform const uint8 len){
+            foreach(index = 0 ... len)
+    {
+        out[index] = -in_arg[index];
+    }
+}

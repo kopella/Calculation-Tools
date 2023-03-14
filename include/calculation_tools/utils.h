@@ -18,6 +18,7 @@ extern void DivForeach(float* out, const float* in_lhs, const float* in_rhs, con
 extern void PowForeach(float* out, const float* in_lhs, const float* in_rhs, const std::uint8_t len);
 extern void AbsForeach(float* out, const float* in_arg, const std::uint8_t len);
 extern void SqrtForeach(float* out, const float* in_arg, const std::uint8_t len);
+extern void NegForeach(float* out, const float* in_arg, const std::uint8_t len);
 
 /* linear algebra */
 

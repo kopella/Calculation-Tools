@@ -162,7 +162,23 @@ inline void vectorSqrt_(VectorCT<T, N>& out, const VectorCT<T, N>& in_arg) {
 #endif
 }
 
+template <typename T, size_t N>
+inline void vectorNeg_(VectorCT<T, N>& out, const VectorCT<T, N>& in_arg) {
+#ifdef ENABLE_ISPC
+  ispc::NegForeach(out, in_arg, N);
+#else
+  NegForeach(out, in_arg, N);
+#endif
+}
+
 /* operators */
+
+template <typename T, size_t N>
+VectorCT<T, N> operator-(const VectorCT<T, N>& vec) {
+  VectorCT<T, N> res;
+  vectorNeg_(res, vec);
+  return res;
+}
 
 /* + */
 

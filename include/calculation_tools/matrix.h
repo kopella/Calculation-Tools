@@ -9,7 +9,7 @@
 namespace kplutl {
 template <typename T, size_t ROWS, size_t COLS>
 struct MatrixCT {
-  VectorCT<T, COLS> data_[ROWS];
+  VectorCT<T, COLS> data_[ROWS]; // column-major
 
   MatrixCT<T, ROWS, COLS>() = default;
   MatrixCT<T, ROWS, COLS>(MatrixCT<T, ROWS, COLS>& matrixCT) = default;
@@ -143,7 +143,23 @@ inline void matrixSqrt_(MatrixCT<T, ROWS, COLS>& out, const MatrixCT<T, ROWS, CO
 #endif
 }
 
+template <typename T, size_t ROWS, size_t COLS>
+inline void matrixNeg_(MatrixCT<T, ROWS, COLS>& out, const MatrixCT<T, ROWS, COLS>& in_arg) {
+#ifdef ENABLE_ISPC
+  ispc::NegForeach(out, in_arg, ROWS * COLS);
+#else
+  NegForeach(out, in_arg, ROWS * COLS);
+#endif
+}
+
 /* operators */
+
+template <typename T, size_t ROWS, size_t COLS>
+MatrixCT<T, ROWS, COLS> operator-(const MatrixCT<T, ROWS, COLS>& mat) {
+  MatrixCT<T, ROWS, COLS> res;
+  matrixNeg_(res, mat);
+  return res;
+}
 
 /* + */
 
